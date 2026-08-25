@@ -47,7 +47,7 @@ The word coverage is known to be incomplete, and `properNames` currently carr
 
 ### CLI
 
-`cli.ts` is the shebang and nothing else. `main.ts` holds the whole command and takes its writer as an argument rather than reaching for `stdout`, so the tests read what it printed without mocking. `arguments.ts` parses `argv` into a plain object and collects options it does not know instead of guessing. `paths.ts` walks the tree one directory at a time, declining to descend into a tool directory rather than dropping it out of the result afterwards — `readdirSync` takes no list of subtrees to leave unread, and reading `node_modules` in full is both the slow way and the one that fails on an entry it was never meant to open.
+`cli.ts` is the shebang and nothing else: it sets `process.exitCode` rather than calling `exit`, so that a write to a pipe finishes. `main.ts` holds the whole command and takes both its writers as arguments rather than reaching for `stdout`, so the tests read what it printed without mocking — results on the one, failures on the other. `arguments.ts` parses `argv` into a plain object and collects options it does not know instead of guessing. `paths.ts` walks the tree one directory at a time, declining to descend into a tool directory rather than dropping it out of the result afterwards — `readdirSync` takes no list of subtrees to leave unread, and reading `node_modules` in full is both the slow way and the one that fails on an entry it was never meant to open.
 
 ## Conventions
 

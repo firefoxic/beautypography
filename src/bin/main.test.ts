@@ -1,5 +1,6 @@
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import path from "node:path"
+import { chdir, cwd, getuid } from "node:process"
 
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
 
@@ -114,6 +115,39 @@ describe(`main`, () => {
 
 		expect(main([missing], write, writeError)).toBe(2)
 		expect(errors.join(``)).toContain(`Cannot read ${missing}`)
+	})
+
+	it.skipIf(getuid?.() === 0)(`names a file it cannot write rather than ending on a stack trace`, () => {
+		let file = fixture(`a.md`, `the word\n`)
+
+		chmodSync(file, 0o444)
+
+		try {
+			expect(main([file], write, writeError)).toBe(2)
+			expect(errors.join(``)).toContain(`Cannot write ${file}`)
+		}
+		finally {
+			chmodSync(file, 0o644)
+		}
+	})
+
+	it(`binds every Markdown file below the current directory when it is given none`, () => {
+		fixture(`a.md`, `the word\n`)
+		fixture(`b.md`, `of course\n`)
+
+		let before = cwd()
+
+		try {
+			chdir(directory)
+
+			expect(main([], write, writeError)).toBe(0)
+		}
+		finally {
+			chdir(before)
+		}
+
+		expect(readFileSync(path.join(directory, `a.md`), `utf8`)).toBe(`the${NBSP}word\n`)
+		expect(readFileSync(path.join(directory, `b.md`), `utf8`)).toBe(`of${NBSP}course\n`)
 	})
 
 	it(`binds a file it is given whatever it is called`, () => {

@@ -35,6 +35,10 @@ describe(`maskCodeSpans`, () => {
 })
 
 describe(`unmaskCodeSpans`, () => {
+	it(`drops a placeholder that stands for no span`, () => {
+		expect(unmaskCodeSpans(`text \uE0007\uE000 end`, [])).toBe(`text  end`)
+	})
+
 	it(`restores what masking took out`, () => {
 		let { masked, spans } = maskCodeSpans(LINE)
 

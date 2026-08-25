@@ -23,8 +23,10 @@
 		".": {
 			"types": "./dist/lib/index.d.ts",
 			"import": "./dist/lib/index.js"
-		}
+		},
+		"./package.json": "./package.json"
 	},
+	"sideEffects": false,
 	"files": [
 		"./dist/"
 	],

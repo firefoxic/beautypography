@@ -6,7 +6,7 @@ import type { Patterns } from "./types.ts"
 const NUMBER = /(?<![\w.-])(\d+(?:[.,]\d+)?) (?=\S)/gu
 
 /** A number trailing its word — a date, a version — binds backwards instead. */
-const TRAILING_NUMBER = /\b([A-Za-z]+) (\d+(?:[.,]\d+)?)(?=[,.;:)\]]|$)/gu
+const TRAILING_NUMBER = /(?<![\p{L}\p{N}])(\p{L}+) (\d+(?:[.,]\d+)?)(?=[,.;:)\]]|$)/gu
 
 /** An em dash belongs to the word before it, never to the line below. */
 const SPACED_EM_DASH = / — /gu

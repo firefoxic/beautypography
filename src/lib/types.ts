@@ -1,9 +1,6 @@
 /** Everything the binder needs to know about one language. */
 export type Language = {
 
-	/** The tag the language is selected by. */
-	code: string,
-
 	/** Words that bind forward to the word that follows them. */
 	boundWords: string[],
 

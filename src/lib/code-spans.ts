@@ -3,7 +3,7 @@ import type { MaskedLine } from "./types.ts"
 /** An inline code span of any backtick width. */
 const CODE_SPAN = /(`+)(?:(?!\1)[\s\S])*?\1/gu
 
-/** A span stands in as its index between two private-use characters, which prose never contains. */
+/** A span stands in as its index between two private-use characters, which prose has no reason to carry — and which are taken out of it before the spans go in, so that a line carrying one anyway cannot be given a span it never had. */
 const MARKER = `\uE000`
 
 /** The stand-in a masked span left behind. */
@@ -17,7 +17,7 @@ const PLACEHOLDER = /\uE000(\d+)\uE000/gu
  */
 export function maskCodeSpans (line: string): MaskedLine {
 	let spans: string[] = []
-	let masked = line.replaceAll(CODE_SPAN, (span) => `${MARKER}${spans.push(span) - 1}${MARKER}`)
+	let masked = line.replaceAll(MARKER, ``).replaceAll(CODE_SPAN, (span) => `${MARKER}${spans.push(span) - 1}${MARKER}`)
 
 	return { masked, spans }
 }

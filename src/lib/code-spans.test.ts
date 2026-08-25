@@ -25,6 +25,13 @@ describe(`maskCodeSpans`, () => {
 		expect(masked).toBe(`plain prose`)
 		expect(spans).toEqual([])
 	})
+
+	it(`takes the marker itself out, so that a line cannot be given a span it never had`, () => {
+		let { masked, spans } = maskCodeSpans(`text \uE0000\uE000 and \`code\``)
+
+		expect(spans).toEqual([`\`code\``])
+		expect(masked).toBe(`text 0 and \uE0000\uE000`)
+	})
 })
 
 describe(`unmaskCodeSpans`, () => {

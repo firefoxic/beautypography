@@ -50,7 +50,6 @@ const EXCEPTIONS = [`that is`, `that says`, `on too`]
 
 /** English, as the convention applies to it. */
 export const ENGLISH: Language = {
-	code: `en`,
 	boundWords: toWords([
 		ARTICLES,
 		PREPOSITIONS,

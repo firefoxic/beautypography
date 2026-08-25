@@ -5,7 +5,6 @@
 		"moduleResolution": "nodenext",
 		"lib": [
 			"ESNext",
-			"DOM",
 		],
 		"types": [
 			"node"
@@ -13,6 +12,7 @@
 		"outDir": "./dist",
 		"rootDir": "./src",
 		"exactOptionalPropertyTypes": true,
+		"noUncheckedIndexedAccess": true,
 		"skipLibCheck": true,
 		"declaration": true,
 		"noEmitOnError": true,

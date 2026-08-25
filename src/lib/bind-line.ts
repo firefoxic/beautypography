@@ -2,12 +2,6 @@ import { maskCodeSpans, unmaskCodeSpans } from "./code-spans.ts"
 import { NBSP } from "./constants.ts"
 import type { Patterns } from "./types.ts"
 
-/** A number binds to what it counts or measures. */
-const NUMBER = /(?<![\w.-])(\d+(?:[.,]\d+)?) (?=\S)/gu
-
-/** A number trailing its word — a date, a version — binds backwards instead. */
-const TRAILING_NUMBER = /(?<![\p{L}\p{N}])(\p{L}+) (\d+(?:[.,]\d+)?)(?=[,.;:)\]]|$)/gu
-
 /** An em dash belongs to the word before it, never to the line below. */
 const SPACED_EM_DASH = / — /gu
 
@@ -37,8 +31,11 @@ export function bindLine (line: string, patterns: Patterns): string {
 
 	masked = masked
 		.replaceAll(patterns.boundWord, (_, word: string, emphasis: string) => `${word}${emphasis}${NBSP}`)
-		.replaceAll(NUMBER, (_, number: string) => `${number}${NBSP}`)
-		.replaceAll(TRAILING_NUMBER, (_, word: string, number: string) => `${word}${NBSP}${number}`)
+		.replaceAll(patterns.number, (match, word: string | undefined, number: string, space: string | undefined) => {
+			if (word) return `${word}${NBSP}${number}${space ?? ``}`
+
+			return space ? `${number}${NBSP}` : match
+		})
 		.replaceAll(SPACED_EM_DASH, `${NBSP}— `)
 
 	for (let exception of patterns.exceptions) {

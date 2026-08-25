@@ -20,6 +20,9 @@ export type Patterns = {
 	/** A single bound word, keeping any emphasis markers glued to it (`**not**`). */
 	boundWord: RegExp,
 
+	/** A number together with the word it may lean back on and the space it may bind forward across. */
+	number: RegExp,
+
 	/** One expression per phrase that stays whole. */
 	boundPhrases: RegExp[],
 

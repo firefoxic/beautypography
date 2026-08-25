@@ -83,6 +83,25 @@ describe(`bindLine`, () => {
 		expect(bind(`siehe Abbildung 2.`)).toBe(`siehe Abbildung${NBSP}2.`)
 	})
 
+	it(`keeps a number with the word it counts from, whatever follows it`, () => {
+		expect(bind(`version 2 of it`)).toBe(`version${NBSP}2 of${NBSP}it`)
+		expect(bind(`chapter 3 covers it`)).toBe(`chapter${NBSP}3 covers it`)
+	})
+
+	it(`leaves a number to what it counts when a bound word stands before it`, () => {
+		expect(bind(`the 5 files`)).toBe(`the${NBSP}5${NBSP}files`)
+		expect(bind(`of 5 files`)).toBe(`of${NBSP}5${NBSP}files`)
+	})
+
+	it(`keeps a number written with a space between its groups whole`, () => {
+		expect(bind(`10 000 items`)).toBe(`10${NBSP}000${NBSP}items`)
+	})
+
+	it(`leaves a version and a date alone`, () => {
+		expect(bind(`v1.5 is out`)).toBe(`v1.5 is out`)
+		expect(bind(`2024-01-05 was it`)).toBe(`2024-01-05 was it`)
+	})
+
 	it(`binds an em dash to the word before it`, () => {
 		expect(bind(`a word — and more`)).toBe(`a${NBSP}word${NBSP}— and${NBSP}more`)
 	})

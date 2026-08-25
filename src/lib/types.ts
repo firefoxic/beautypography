@@ -26,8 +26,8 @@ export type Patterns = {
 	/** One expression per phrase that stays whole. */
 	boundPhrases: RegExp[],
 
-	/** The names that stay whole, longest first, so that a name never eats a shorter one. */
-	properNames: string[],
+	/** The names that stay whole, longest first, so that a name never eats a shorter one. Matched as they are written, since the case of a name carries meaning. */
+	properNames: RegExp[],
 
 	/** One expression per sequence that is unbound again at the end. */
 	exceptions: RegExp[],

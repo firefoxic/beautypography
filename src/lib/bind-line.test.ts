@@ -57,6 +57,10 @@ describe(`bindLine`, () => {
 		expect(bind(`no longer here`)).toBe(`no${NBSP}longer here`)
 	})
 
+	it(`leaves a longer word a name only opens`, () => {
+		expect(bind(`Keep a Changelogs of it`)).toBe(`Keep a${NBSP}Changelogs of${NBSP}it`)
+	})
+
 	it(`keeps a name of a work whole`, () => {
 		expect(bind(`Keep a Changelog is a format`)).toBe(`Keep${NBSP}a${NBSP}Changelog is a${NBSP}format`)
 	})

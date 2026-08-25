@@ -28,7 +28,7 @@ export function bindLine (line: string, patterns: Patterns): string {
 	masked = masked.replaceAll(NBSP, ` `)
 
 	for (let name of patterns.properNames) {
-		masked = masked.replaceAll(name, name.replaceAll(` `, NBSP))
+		masked = masked.replaceAll(name, (match) => match.replaceAll(` `, NBSP))
 	}
 
 	for (let phrase of patterns.boundPhrases) {

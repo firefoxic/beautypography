@@ -44,6 +44,11 @@ describe(`bindLine`, () => {
 		expect(bind(`**not** ready`)).toBe(`**not**${NBSP}ready`)
 	})
 
+	it(`keeps an underscore emphasis glued to the word as well`, () => {
+		expect(bind(`_not_ ready`)).toBe(`_not_${NBSP}ready`)
+		expect(bind(`__the__ word`)).toBe(`__the__${NBSP}word`)
+	})
+
 	it(`binds whatever the case`, () => {
 		expect(bind(`The word`)).toBe(`The${NBSP}word`)
 	})

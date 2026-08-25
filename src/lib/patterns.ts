@@ -42,6 +42,8 @@ function toNamePattern (name: string): RegExp {
  *
  * The words are tried longest first, so that `into` is never mistaken for `in`.
  *
+ * A word may not follow a letter or a digit, rather than merely stand at a word boundary: an underscore is a word character, so `\b` would have refused the `_the_` a Markdown emphasis writes, while the trailing marker was allowed for all along.
+ *
  * Everything a language gives is escaped on the way in. A language is data, and a word of it that reads as an expression — a `(`, an `a.c` — would either match what it never meant to or refuse to compile at all.
  *
  * @param {Language} language - The language to compile.
@@ -51,7 +53,7 @@ export function createPatterns (language: Language): Patterns {
 	let alternatives = language.boundWords.toSorted((a, b) => b.length - a.length).map((word) => RegExp.escape(word)).join(`|`)
 
 	return {
-		boundWord: new RegExp(String.raw`\b(${alternatives})([*_]{0,2}) (?=\S)`, `giu`),
+		boundWord: new RegExp(String.raw`(?<![\p{L}\p{N}])(${alternatives})([*_]{0,2}) (?=\S)`, `giu`),
 		boundPhrases: language.boundPhrases.map(toPhrasePattern),
 		properNames: language.properNames.toSorted((a, b) => b.length - a.length).map((name) => toNamePattern(name)),
 		exceptions: language.exceptions.map(toPhrasePattern),

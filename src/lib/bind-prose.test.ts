@@ -17,6 +17,53 @@ describe(`bindProse`, () => {
 		expect(bindProse(FENCED)).toBe(bound)
 	})
 
+	it(`leaves a block fenced by tildes alone`, () => {
+		let source = [`~~~`, `the value`, `~~~`].join(`\n`)
+
+		expect(bindProse(source)).toBe(source)
+	})
+
+	it(`leaves a block fenced under an indent alone`, () => {
+		let source = [`- item`, `  \`\`\``, `  the value`, `  \`\`\``].join(`\n`)
+
+		expect(bindProse(source)).toBe(source)
+	})
+
+	it(`closes a block by a fence no shorter than the one that opened it`, () => {
+		let source = [`\`\`\`\``, `the value`, `\`\`\``, `the value`, `\`\`\`\``].join(`\n`)
+
+		expect(bindProse(source)).toBe(source)
+	})
+
+	it(`closes a block by a fence of its own character`, () => {
+		let source = [`\`\`\``, `~~~`, `the value`, `\`\`\``].join(`\n`)
+
+		expect(bindProse(source)).toBe(source)
+	})
+
+	it(`closes a block by a fence carrying nothing after it`, () => {
+		let source = [`\`\`\``, `the value`, `\`\`\` js`, `the value`].join(`\n`)
+
+		expect(bindProse(source)).toBe(source)
+	})
+
+	it(`carries an unclosed block to the end of the document`, () => {
+		let source = [`\`\`\``, `the value`, `the value`].join(`\n`)
+
+		expect(bindProse(source)).toBe(source)
+	})
+
+	it(`opens nothing on a line of backticks that holds another`, () => {
+		expect(bindProse(`\`\`\`a\`\`\` of a kind`)).toBe(`\`\`\`a\`\`\` of${NBSP}a${NBSP}kind`)
+	})
+
+	it(`binds the prose that follows a block`, () => {
+		let source = [`\`\`\`js of a kind`, `let a = the value`, `\`\`\``, `of a kind`].join(`\n`)
+		let bound = [`\`\`\`js of a kind`, `let a = the value`, `\`\`\``, `of${NBSP}a${NBSP}kind`].join(`\n`)
+
+		expect(bindProse(source)).toBe(bound)
+	})
+
 	it(`binds a bound document to itself`, () => {
 		let once = bindProse(`the word of a kind — and more`)
 

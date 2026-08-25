@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
-import { argv, exit, stdout } from "node:process"
+import process, { argv, stderr, stdout } from "node:process"
 
 import { main } from "./main.ts"
 
-exit(main(argv.slice(2), (message) => {
+process.exitCode = main(argv.slice(2), (message) => {
 	stdout.write(message)
-}))
+}, (message) => {
+	stderr.write(message)
+})

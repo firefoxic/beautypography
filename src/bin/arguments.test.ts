@@ -4,7 +4,7 @@ import { parseArguments } from "./arguments.ts"
 
 describe(`parseArguments`, () => {
 	it(`reads nothing out of an empty command line`, () => {
-		expect(parseArguments([])).toEqual({ isCheck: false, isHelp: false, paths: [], unknown: [] })
+		expect(parseArguments([])).toEqual({ isCheck: false, isHelp: false, isVersion: false, paths: [], unknown: [] })
 	})
 
 	it(`takes every word that is not an option for a path`, () => {
@@ -19,6 +19,11 @@ describe(`parseArguments`, () => {
 	it(`reads the help option in either form`, () => {
 		expect(parseArguments([`--help`]).isHelp).toBe(true)
 		expect(parseArguments([`-h`]).isHelp).toBe(true)
+	})
+
+	it(`reads the version option in either form`, () => {
+		expect(parseArguments([`--version`]).isVersion).toBe(true)
+		expect(parseArguments([`-v`]).isVersion).toBe(true)
 	})
 
 	it(`collects an option it does not know rather than guessing at it`, () => {

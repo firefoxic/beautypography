@@ -9,7 +9,7 @@ import type { Arguments } from "./types.ts"
  * @returns {Arguments} What the command line asked for.
  */
 export function parseArguments (argv: string[]): Arguments {
-	let parsed: Arguments = { isCheck: false, isHelp: false, paths: [], unknown: [] }
+	let parsed: Arguments = { isCheck: false, isHelp: false, isVersion: false, paths: [], unknown: [] }
 
 	for (let argument of argv) {
 		switch (argument) {
@@ -20,6 +20,10 @@ export function parseArguments (argv: string[]): Arguments {
 			case `--help`:
 			case `-h`:
 				parsed.isHelp = true
+				break
+			case `--version`:
+			case `-v`:
+				parsed.isVersion = true
 				break
 			default:
 				if (argument.startsWith(`-`)) parsed.unknown.push(argument)

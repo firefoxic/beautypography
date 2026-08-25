@@ -42,6 +42,13 @@ then
 	fi
 fi
 
+changed_prose=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.md$') || true
+
+# The convention the package applies to its own prose is easy to forget on the way out, and CI is a slow place to be told. The files are given by name, so that a commit touching one document is not answered for by the state of another.
+if [ -n "$changed_prose" ]
+then node src/bin/cli.ts --check $changed_prose
+fi
+
 changed_files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|ts)$') || true
 
 if [ -z "$changed_files" ]

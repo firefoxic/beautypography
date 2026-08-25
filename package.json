@@ -1,6 +1,6 @@
 {
 	"name": "@firefoxic/beautypography",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "Binds function words, numbers and em dashes in Markdown prose with non-breaking spaces",
 	"license": "MIT",
 	"author": {

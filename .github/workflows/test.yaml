@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - '**'
+
+env:
+  FORCE_COLOR: 2
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          cache: true
+          version: latest
+      - run: pnpm ci
+      - run: make verify

@@ -1,0 +1,69 @@
+{
+	"name": "@firefoxic/beautypography",
+	"version": "0.0.1",
+	"description": "Binds function words, numbers and em dashes in Markdown prose with non-breaking spaces",
+	"license": "MIT",
+	"author": {
+		"name": "Sergey Artemov",
+		"email": "firefoxic.dev@gmail.com"
+	},
+	"homepage": "https://github.com/firefoxic/beautypography#readme",
+	"bugs": {
+		"url": "https://github.com/firefoxic/beautypography/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/firefoxic/beautypography.git"
+	},
+	"type": "module",
+	"bin": {
+		"beautypography": "dist/bin/cli.js"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/lib/index.d.ts",
+			"import": "./dist/lib/index.js"
+		}
+	},
+	"files": [
+		"./dist/"
+	],
+	"scripts": {
+		"help": "make help",
+		"prepare": "git config --local core.hooksPath .githooks || true"
+	},
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": ">=26.7",
+			"onFail": "download"
+		},
+		"packageManager": {
+			"name": "pnpm",
+			"version": ">=11.22",
+			"onFail": "download"
+		}
+	},
+	"devDependencies": {
+		"@firefoxic/oxlint-config": "^0.4.0",
+		"@types/node": "^26.2.0",
+		"@vitest/coverage-v8": "^4.1.11",
+		"@vitest/ui": "4.1.11",
+		"oxlint": "^1.79.0",
+		"tsdown": "^0.22.14",
+		"typescript": "^7.0.2",
+		"vitest": "^4.1.11"
+	},
+	"keywords": [
+		"typography",
+		"markdown",
+		"prose",
+		"non-breaking-space",
+		"nbsp",
+		"function-words",
+		"em-dash",
+		"linter",
+		"formatter",
+		"cli"
+	]
+}

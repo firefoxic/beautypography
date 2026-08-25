@@ -7,6 +7,16 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest"
 import { collectProsePaths } from "./paths.ts"
 
 let directory = ``
+let errors: string[] = []
+
+/**
+ * Collects what the walk reports about a directory it cannot read.
+ *
+ * @param {string} message - What the walk reported.
+ */
+function writeError (message: string): void {
+	errors.push(message)
+}
 
 /**
  * Writes a file, and every directory on the way to it.
@@ -37,6 +47,7 @@ function folder (relative: string): string {
 beforeEach(() => {
 	mkdirSync(`tmp`, { recursive: true })
 	directory = mkdtempSync(path.join(`tmp`, `paths-`))
+	errors = []
 })
 
 afterEach(() => {
@@ -50,7 +61,7 @@ describe(`collectProsePaths`, () => {
 		file(`docs/deep/further/note.md`)
 		file(`src/index.ts`)
 
-		expect(collectProsePaths(directory)).toEqual([`README.md`, `docs/deep/further/note.md`, `docs/guide.md`])
+		expect(collectProsePaths(directory, writeError)).toEqual([`README.md`, `docs/deep/further/note.md`, `docs/guide.md`])
 	})
 
 	it(`refuses a skipped name wherever in the tree it stands`, () => {
@@ -61,20 +72,20 @@ describe(`collectProsePaths`, () => {
 		file(`.claude/specs/plan.md`)
 		file(`kept.md`)
 
-		expect(collectProsePaths(directory)).toEqual([`kept.md`])
+		expect(collectProsePaths(directory, writeError)).toEqual([`kept.md`])
 	})
 
 	it(`leaves the license of the root exactly as its source has it, and binds any other`, () => {
 		file(`LICENSE.md`)
 		file(`docs/LICENSE.md`)
 
-		expect(collectProsePaths(directory)).toEqual([`docs/LICENSE.md`])
+		expect(collectProsePaths(directory, writeError)).toEqual([`docs/LICENSE.md`])
 	})
 
 	it(`descends into a directory named like prose rather than reading it as a file`, () => {
 		file(`weird.md/inside.md`)
 
-		expect(collectProsePaths(directory)).toEqual([`weird.md/inside.md`])
+		expect(collectProsePaths(directory, writeError)).toEqual([`weird.md/inside.md`])
 	})
 
 	it(`returns the paths in a stable order`, () => {
@@ -82,14 +93,32 @@ describe(`collectProsePaths`, () => {
 		file(`a.md`)
 		file(`c/a.md`)
 
-		expect(collectProsePaths(directory)).toEqual([`a.md`, `b.md`, `c/a.md`])
+		expect(collectProsePaths(directory, writeError)).toEqual([`a.md`, `b.md`, `c/a.md`])
 	})
 
 	it(`leaves a skipped tree unread rather than dropping it out of the result`, () => {
 		file(`kept.md`)
 		symlinkSync(`..`, path.join(folder(`node_modules/pkg`), `loop`), `dir`)
 
-		expect(collectProsePaths(directory)).toEqual([`kept.md`])
+		expect(collectProsePaths(directory, writeError)).toEqual([`kept.md`])
+	})
+
+	it.skipIf(getuid?.() === 0)(`says which directory it could not read, and walks on`, () => {
+		file(`kept.md`)
+		file(`docs/deep.md`)
+
+		let blocked = folder(`docs/closed`)
+
+		chmodSync(blocked, 0o000)
+
+		try {
+			expect(collectProsePaths(directory, writeError)).toEqual([`docs/deep.md`, `kept.md`])
+			expect(errors.join(``)).toContain(`Cannot read ${directory}/docs/closed`)
+			expect(errors.join(``)).toContain(`permission denied`)
+		}
+		finally {
+			chmodSync(blocked, 0o755)
+		}
 	})
 
 	it.skipIf(getuid?.() === 0)(`does not end the walk over a directory it never meant to open`, () => {
@@ -100,7 +129,7 @@ describe(`collectProsePaths`, () => {
 		chmodSync(blocked, 0o000)
 
 		try {
-			expect(collectProsePaths(directory)).toEqual([`kept.md`])
+			expect(collectProsePaths(directory, writeError)).toEqual([`kept.md`])
 		}
 		finally {
 			chmodSync(blocked, 0o755)

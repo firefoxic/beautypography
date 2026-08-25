@@ -118,5 +118,5 @@ export function main (argv: string[], write: Write, writeError: Write): number {
 		return 0
 	}
 
-	return bindPaths(paths.length > 0 ? paths : collectProsePaths(), isCheck, write, writeError)
+	return bindPaths(paths.length > 0 ? paths : collectProsePaths(`.`, writeError), isCheck, write, writeError)
 }

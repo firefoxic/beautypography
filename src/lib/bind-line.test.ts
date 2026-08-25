@@ -79,6 +79,10 @@ describe(`bindLine`, () => {
 		expect(bind(`see figure 2.`)).toBe(`see figure${NBSP}2.`)
 	})
 
+	it(`binds a trailing number back to a word of any script`, () => {
+		expect(bind(`siehe Abbildung 2.`)).toBe(`siehe Abbildung${NBSP}2.`)
+	})
+
 	it(`binds an em dash to the word before it`, () => {
 		expect(bind(`a word — and more`)).toBe(`a${NBSP}word${NBSP}— and${NBSP}more`)
 	})

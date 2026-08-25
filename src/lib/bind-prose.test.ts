@@ -27,6 +27,16 @@ describe(`bindProse`, () => {
 		expect(bindProse(`plain${NBSP}words`)).toBe(`plain words`)
 	})
 
+	it(`leaves the spaces of an inline code span to its author`, () => {
+		expect(bindProse(`text \`a${NBSP}b\` end`)).toBe(`text \`a${NBSP}b\` end`)
+	})
+
+	it(`leaves the spaces of a fenced code block to its author`, () => {
+		let source = [`\`\`\``, `let a =${NBSP}b`, `\`\`\``].join(`\n`)
+
+		expect(bindProse(source)).toBe(source)
+	})
+
 	it(`keeps the line count`, () => {
 		expect(bindProse(`\n\na\n\n`)).toBe(`\n\na\n\n`)
 	})

@@ -34,6 +34,12 @@ describe(`bindLine`, () => {
 		expect(bind(`into place`)).toBe(`into${NBSP}place`)
 	})
 
+	it(`binds a bound line to itself`, () => {
+		let once = bind(`the word of a kind — and more`)
+
+		expect(bind(once)).toBe(once)
+	})
+
 	it(`keeps emphasis markers glued to the word`, () => {
 		expect(bind(`**not** ready`)).toBe(`**not**${NBSP}ready`)
 	})

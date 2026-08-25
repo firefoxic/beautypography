@@ -1,6 +1,5 @@
 import { ENGLISH } from "./languages/english.ts"
 import { bindLine } from "./bind-line.ts"
-import { NBSP } from "./constants.ts"
 import { createPatterns } from "./patterns.ts"
 import type { Language } from "./types.ts"
 
@@ -10,7 +9,7 @@ const FENCE = `\`\`\``
 /**
  * Applies the convention to a whole document, leaving fenced code blocks alone.
  *
- * Every non-breaking space already in the source is undone first, so that binding a bound document changes nothing.
+ * Undoing the non-breaking spaces the source already carries is left to `bindLine`, which does it once the code spans of a line are out of reach: a space inside a code span, or inside a fenced block, is the author's and stays as it is.
  *
  * @param {string} source - The Markdown source.
  * @param {Language} language - The language its prose is written in.
@@ -20,7 +19,7 @@ export function bindProse (source: string, language: Language = ENGLISH): string
 	let patterns = createPatterns(language)
 	let isFenced = false
 
-	return source.replaceAll(NBSP, ` `).split(`\n`).map((line) => {
+	return source.split(`\n`).map((line) => {
 		if (line.startsWith(FENCE)) {
 			isFenced = !isFenced
 

@@ -16,12 +16,16 @@ const SPACED_EM_DASH = / — /gu
  *
  * The rules run in an order that matters: code spans go out of reach first, whole phrases and names claim their spaces before any single word can, and the pairs the meaning keeps apart are unbound again at the very end.
  *
+ * Every non-breaking space the line already carries is undone once the code spans are out of the way, which is what makes binding a bound line change nothing — and what keeps a space inside a code span exactly as its author set it.
+ *
  * @param {string} line - The line to bind.
  * @param {Patterns} patterns - The compiled language to bind it by.
  * @returns {string} The same line with non-breaking spaces in place.
  */
 export function bindLine (line: string, patterns: Patterns): string {
 	let { masked, spans } = maskCodeSpans(line)
+
+	masked = masked.replaceAll(NBSP, ` `)
 
 	for (let name of patterns.properNames) {
 		masked = masked.replaceAll(name, name.replaceAll(` `, NBSP))

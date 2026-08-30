@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and 
 
 ## [Unreleased]
 
+### Fixed
+
+- A number is bound on both sides, and never to a function word: `cost 0.05 ms` no longer breaks between the measurement and its unit, and `measuring 8 + 13` no longer lets the `+` open a line, while `version 2 of it` still keeps its version and lets the `of` go ([#1](https://github.com/firefoxic/beautypography/issues/1)).
+
 ## [0.1.0] — 2026–08–25
 
 ### Added

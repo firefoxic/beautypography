@@ -42,7 +42,7 @@ function toNamePattern (name: string): RegExp {
  *
  * The words are tried longest first, so that `into` is never mistaken for `in`.
  *
- * A number is one expression rather than two, because the two answers it can be given are exclusive: a number that has leaned back on the word before it must not also reach forward, and two separate rules each saw a number the other had already spoken for. The word it may lean on is any word that is not a bound one — a `version 2` holds, while the `5` of `the 5 files` belongs to the files rather than to the article.
+ * A number is one expression rather than two, because two separate rules each saw a number the other had already spoken for. It is bound on both sides, and never to a bound word: leaning back on the word before it only when that word is not a bound one, since a `version 2` holds while the `5` of `the 5 files` belongs to the files rather than to the article; reaching forward only when the word after it is not a bound one, since the `of` in `version 2 of it` is where a number never belongs, while the `ms` of `cost 0.05 ms` is half of the measurement.
  *
  * A word may not follow a letter or a digit, rather than merely stand at a word boundary: an underscore is a word character, so `\b` would have refused the `_the_` a Markdown emphasis writes, while the trailing marker was allowed for all along.
  *
@@ -55,7 +55,7 @@ export function createPatterns (language: Language): Patterns {
 	let alternatives = language.boundWords.toSorted((a, b) => b.length - a.length).map((word) => RegExp.escape(word)).join(`|`)
 
 	return {
-		number: new RegExp(String.raw`(?:(?<![\p{L}\p{N}])(?!(?:${alternatives})(?![\p{L}\p{N}]))(\p{L}+) )?(?<![\w.-])(\d+(?:[.,]\d+)?)( (?=\S))?`, `giu`),
+		number: new RegExp(String.raw`(?:(?<![\p{L}\p{N}])(?!(?:${alternatives})(?![\p{L}\p{N}]))(\p{L}+) )?(?<![\w.-])(\d+(?:[.,]\d+)?)( (?!(?:${alternatives})(?![\p{L}\p{N}]))(?=\S))?`, `giu`),
 		boundWord: new RegExp(String.raw`(?<![\p{L}\p{N}])(${alternatives})([*_]{0,2}) (?=\S)`, `giu`),
 		boundPhrases: language.boundPhrases.map(toPhrasePattern),
 		properNames: language.properNames.toSorted((a, b) => b.length - a.length).map((name) => toNamePattern(name)),

@@ -32,7 +32,7 @@ export function bindLine (line: string, patterns: Patterns): string {
 	masked = masked
 		.replaceAll(patterns.boundWord, (_, word: string, emphasis: string) => `${word}${emphasis}${NBSP}`)
 		.replaceAll(patterns.number, (match, word: string | undefined, number: string, space: string | undefined) => {
-			if (word) return `${word}${NBSP}${number}${space ?? ``}`
+			if (word) return `${word}${NBSP}${number}${space ? NBSP : ``}`
 
 			return space ? `${number}${NBSP}` : match
 		})

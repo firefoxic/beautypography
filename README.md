@@ -66,7 +66,7 @@ The types `Language`, `Patterns` and `MaskedLine` are exported for anyone wri
 
 - **Function words** bind forward to the word that follows: articles, prepositions, coordinating and subordinating conjunctions, relative pronouns, particles, and numerals spelled out. Emphasis markers stay glued to the word, so `**not** ready` and `_not_ ready` bind as the word does.
 - **Phrases and names** claim their spaces before any single word can, longest first, and only where they stand whole: `Keep a Changelog` is bound, while the opening of `Keep a Changelogs` is not. A name is matched as it is written, since the case of a name carries meaning.
-- **Numbers** lean back on the word before them, and reach forward only when there is no such word to lean on: `version 2 of it` keeps its version, while the `5` of `the 5 files` goes to the files rather than to the article.
+- **Numbers** are bound on both sides, and never to a function word: `cost 0.05 ms` keeps its measurement whole, `version 2 of it` keeps its version and lets the `of` go, and the `5` of `the 5 files` goes to the files rather than to the article.
 - **Em dashes** bind to the word before them, never to the line below.
 - **Exceptions** are unbound again at the end, because the rules bind them but the meaning does not — `that is` and its like.
 
@@ -90,7 +90,7 @@ beautypography --check $(git diff --cached --name-only --diff-filter=ACM | grep 
 - **English only.** A second language is planned, and the matching logic is ready for one, but nothing else ships yet.
 - **The word list is incomplete.** It covers the function words that break lines most visibly, not every one English has.
 - **A code block indented by four spaces is prose to this tool.** Fenced blocks are recognised the way CommonMark writes them — backticks or tildes, any length, under an indent of up to three spaces — but telling an indented code block from a nested list item needs a full block parser.
-- **Any word before a number takes it.** `see 5 files` binds the `5` back to `see`, where the number really counts the files. Telling a verb from a `version` needs to know parts of speech.
+- **Any word before a number takes it.** `see 5 files` binds the `5` back to `see` as well as forward to the files it counts. Telling a verb from a `version` needs to know parts of speech.
 
 [license-url]: https://github.com/firefoxic/beautypography/blob/main/LICENSE.md
 [license-image]: https://img.shields.io/badge/License-MIT-limegreen.svg

@@ -83,9 +83,15 @@ describe(`bindLine`, () => {
 		expect(bind(`siehe Abbildung 2.`)).toBe(`siehe Abbildung${NBSP}2.`)
 	})
 
-	it(`keeps a number with the word it counts from, whatever follows it`, () => {
+	it(`keeps a number with the word it counts from, and never with a bound word after it`, () => {
 		expect(bind(`version 2 of it`)).toBe(`version${NBSP}2 of${NBSP}it`)
-		expect(bind(`chapter 3 covers it`)).toBe(`chapter${NBSP}3 covers it`)
+		expect(bind(`See issue 366 for the census.`)).toBe(`See issue${NBSP}366 for${NBSP}the${NBSP}census.`)
+	})
+
+	it(`binds a number on both sides, so that neither its unit nor its expression breaks`, () => {
+		expect(bind(`cost 0.05 ms together`)).toBe(`cost${NBSP}0.05${NBSP}ms together`)
+		expect(bind(`measuring 8 + 13 = 21 columns:`)).toBe(`measuring${NBSP}8${NBSP}+ 13${NBSP}= 21${NBSP}columns:`)
+		expect(bind(`chapter 3 covers it`)).toBe(`chapter${NBSP}3${NBSP}covers it`)
 	})
 
 	it(`leaves a number to what it counts when a bound word stands before it`, () => {

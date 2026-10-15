@@ -4,7 +4,7 @@ import { readdirSync } from "node:fs"
 import type { Write } from "./types.ts"
 
 /** Every name of a directory whose contents belong to a tool rather than to the prose. A name rather than a path, so that it is refused wherever in the tree it stands. */
-const SKIPPED_DIRECTORY_NAMES = new Set([`.claude`, `.git`, `coverage`, `dist`, `node_modules`, `tmp`])
+const SKIPPED_DIRECTORY_NAMES = new Set([`local`, `.git`, `coverage`, `dist`, `node_modules`, `tmp`])
 
 /** The license text is quoted verbatim, so it is left exactly as its source has it. A path from the root of the walk: a `docs/LICENSE.md` is prose like any other. */
 const SKIPPED_FILES = new Set([`LICENSE.md`])

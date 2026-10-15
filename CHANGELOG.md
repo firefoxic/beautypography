@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and 
 
 ## [Unreleased]
 
+### Changed
+
+- The `local` directory is now ignored instead of `.claude`.
+
 ## [0.1.1] — 2026–08–30
 
 ### Fixed

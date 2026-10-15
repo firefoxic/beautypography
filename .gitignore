@@ -1,6 +1,5 @@
 *.log
-.claude/*.local.*
-.claude/specs
+.agents/local
 *.local.md
 coverage
 dist

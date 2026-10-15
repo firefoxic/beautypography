@@ -69,7 +69,7 @@ describe(`collectProsePaths`, () => {
 		file(`packages/one/node_modules/pkg/README.md`)
 		file(`packages/one/dist/built.md`)
 		file(`tmp/notes.md`)
-		file(`.claude/specs/plan.md`)
+		file(`.agents/local/specs/plan.md`)
 		file(`kept.md`)
 
 		expect(collectProsePaths(directory, writeError)).toEqual([`kept.md`])

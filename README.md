@@ -34,7 +34,7 @@ Node 24.0 or newer.
 beautypography [options] [file...]
 ```
 
-With no file given, every Markdown file below the current directory is bound, skipping the directories that belong to a tool rather than to the prose — `.claude`, `.git`, `coverage`, `dist`, `node_modules` and `tmp`, wherever in the tree they stand — and leaving the `LICENSE.md` of the root alone, since a license is quoted verbatim.
+With no file given, every Markdown file below the current directory is bound, skipping the directories that belong to a tool rather than to the prose — `local`, `.git`, `coverage`, `dist`, `node_modules` and `tmp`, wherever in the tree they stand — and leaving the `LICENSE.md` of the root alone, since a license is quoted verbatim.
 
 A file given by name is bound whatever it is called and wherever it lies: naming a file is asking for that file.
 

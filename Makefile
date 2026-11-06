@@ -14,7 +14,7 @@ help: ## 🧾 Print this message
 .PHONY: help
 
 check: ## ✅ Check types with TypeScript
-	tsc --noEmit
+	tsrs
 .PHONY: check
 
 lint: ## 🧬 Check code by oxlint [LINT_FLAGS=] [FILE=]
@@ -26,7 +26,8 @@ test: ## 🧪 Run tests [TEST_FLAGS=] [FILE=]
 .PHONY: test
 
 build: ## 📦 Bundle the package into dist
-	tsdown
+	rm -rf dist
+	tsrs -p tsconfig.build.json
 .PHONY: build
 
 prose: ## ✍️  Bind function words in markdown with non-breaking spaces

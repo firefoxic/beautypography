@@ -24,7 +24,7 @@ function run (argv: string[]): { status: number | null, stdout: string, stderr: 
 }
 
 beforeAll(() => {
-	execFileSync(`node_modules/.bin/tsdown`, { stdio: `pipe` })
+	execFileSync(`node_modules/.bin/tsrs`, [`-p`, `tsconfig.build.json`], { stdio: `pipe` })
 }, 60_000)
 
 beforeEach(() => {

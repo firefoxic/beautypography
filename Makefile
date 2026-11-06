@@ -38,10 +38,10 @@ prose-check: ## 🔤 Check that markdown prose is bound
 	node src/bin/cli.ts --check
 .PHONY: prose-check
 
-verify: check lint test prose-check ## ✅ Run every check the CI runs
+verify: check lint test prose-check build ## ✅ Run every check the CI runs
 .PHONY: verify
 
-release: verify build ## 🚀 Release a new version
+release: verify ## 🚀 Release a new version
 	pnx @firefoxic/release-it
 .PHONY: release
 

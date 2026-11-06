@@ -35,12 +35,12 @@
 		"prepare": "git config --local core.hooksPath .githooks || true"
 	},
 	"engines": {
-		"node": ">=24.0"
+		"node": ">=22.22.2"
 	},
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": ">=26.13",
+			"version": "22.22.2",
 			"onFail": "download"
 		},
 		"packageManager": {

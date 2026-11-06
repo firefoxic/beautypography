@@ -10,8 +10,8 @@ describe(`createPatterns`, () => {
 		let { properNames } = createPatterns({ ...ENGLISH, properNames: [`Ada`, `Ada Lovelace`] })
 
 		expect(properNames.map((name) => name.source)).toEqual([
-			String.raw`(?<![\p{L}\p{N}])\x41da[ \u00A0]\x4covelace(?![\p{L}\p{N}])`,
-			String.raw`(?<![\p{L}\p{N}])\x41da(?![\p{L}\p{N}])`,
+			String.raw`(?<![\p{L}\p{N}])Ada[ \u00A0]Lovelace(?![\p{L}\p{N}])`,
+			String.raw`(?<![\p{L}\p{N}])Ada(?![\p{L}\p{N}])`,
 		])
 	})
 

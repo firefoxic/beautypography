@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and 
 
 ## [Unreleased]
 
+### Fixed
+
+- Lowered the minimum supported Node.js version from 24.0 to 22.22.2.
+
 ## [0.2.0] — 2026–10–15
 
 ### Changed

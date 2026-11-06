@@ -4,6 +4,16 @@ import type { Language, Patterns } from "./types.ts"
 const SPACE = String.raw`[ \u00A0]`
 
 /**
+ * Escapes characters with meaning outside a character class.
+ *
+ * @param {string} value - The literal text to escape.
+ * @returns {string} The escaped text.
+ */
+function escapeRegExp (value: string): string {
+	return value.replaceAll(/[.*+?^${}()|[\]\\]/gu, String.raw`\$&`)
+}
+
+/**
  * Escapes the words of a sequence and joins them by a space of either kind.
  *
  * The words are escaped one by one rather than the sequence at once, because an escaped space would no longer be the character class that lets a bound phrase match.
@@ -12,7 +22,7 @@ const SPACE = String.raw`[ \u00A0]`
  * @returns {string} The source of an expression matching them.
  */
 function toSpacedSource (sequence: string): string {
-	return sequence.split(` `).map((word) => RegExp.escape(word)).join(SPACE)
+	return sequence.split(` `).map((word) => escapeRegExp(word)).join(SPACE)
 }
 
 /**
@@ -52,7 +62,7 @@ function toNamePattern (name: string): RegExp {
  * @returns {Patterns} The compiled expressions.
  */
 export function createPatterns (language: Language): Patterns {
-	let alternatives = language.boundWords.toSorted((a, b) => b.length - a.length).map((word) => RegExp.escape(word)).join(`|`)
+	let alternatives = language.boundWords.toSorted((a, b) => b.length - a.length).map((word) => escapeRegExp(word)).join(`|`)
 
 	return {
 		number: new RegExp(String.raw`(?:(?<![\p{L}\p{N}])(?!(?:${alternatives})(?![\p{L}\p{N}]))(\p{L}+) )?(?<![\w.-])(\d+(?:[.,]\d+)?)( (?!(?:${alternatives})(?![\p{L}\p{N}]))(?=\S))?`, `giu`),

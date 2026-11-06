@@ -24,7 +24,7 @@ pnpm add -g @firefoxic/beautypography
 pnpm add -D @firefoxic/beautypography
 ```
 
-Node 24.0 or newer.
+Node 22.22.2 or newer.
 
 ## Usage
 
